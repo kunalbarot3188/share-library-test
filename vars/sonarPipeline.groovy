@@ -3,6 +3,7 @@ def call(Map config) {
         agent any
         
         environment {
+            // Define environment variables directly in the environment block
             PROJECT_NAME = config.projectName
             GIT_REPO_URL = config.gitRepoUrl
             SONAR_TOKEN = config.sonarToken
@@ -17,6 +18,7 @@ def call(Map config) {
 
             stage('Checkout from Git') {
                 steps {
+                    // Access environment variables using the env object
                     git branch: 'main', url: env.GIT_REPO_URL
                 }
             }
@@ -24,6 +26,7 @@ def call(Map config) {
             stage('Sonarqube Analysis') {
                 steps {
                     withSonarQubeEnv('sonar-server') {
+                        // Access environment variables using the env object
                         sh "${tool 'sonar-scanner'}/bin/sonar-scanner -Dsonar.projectName='${env.PROJECT_NAME}' -Dsonar.projectKey='${env.PROJECT_NAME}'"
                     }
                 }
@@ -32,6 +35,7 @@ def call(Map config) {
             stage('Quality Gate') {
                 steps {
                     script {
+                        // Access environment variables using the env object
                         waitForQualityGate abortPipeline: false, credentialsId: env.SONAR_TOKEN
                     }
                 }
