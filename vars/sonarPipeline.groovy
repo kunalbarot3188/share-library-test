@@ -4,9 +4,9 @@ def call(Map config) {
         
         environment {
             // Define environment variables directly in the environment block
-            PROJECT_NAME = config.projectName
-            GIT_REPO_URL = config.gitRepoUrl
-            SONAR_TOKEN = config.sonarToken
+            PROJECT_NAME = "${config.projectName}"  // Double quotes around variable interpolation
+            GIT_REPO_URL = "${config.gitRepoUrl}"    // Double quotes around variable interpolation
+            SONAR_TOKEN = "${config.sonarToken}"    // Double quotes around variable interpolation
         }
         
         stages {
@@ -43,6 +43,7 @@ def call(Map config) {
         }
     }
 }
+
 
 
 
